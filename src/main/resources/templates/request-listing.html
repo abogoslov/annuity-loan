@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>All requests</title>
+
+    <link rel="stylesheet" th:href="@{/lib/bootstrap/css/bootstrap.min.css}" crossorigin="anonymous"/>
+    <link rel="stylesheet" th:href="@{/css/base.css}"/>
+
+    <script th:src="@{/lib/jquery/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/lib/popper/popper.min.js}"></script>
+    <script th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/listing.js}"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Меню</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" onclick="window.location='/loan'">На главную</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" onclick="window.location='/loan/create'">Создать запрос</a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link">Просмотреть все</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--/*@thymesVar id="requests" type="java.util.List"*/-->
+    <!--/*@thymesVar id="request" type="loan.model.Request"*/-->
+    <p th:each="request : ${requests}" th:id="'par' + ${request.getId()}" class="request-par text-center m-1">
+        <span th:text="${request}"></span>
+        <button th:value="${request.getId()}" class="schedule btn btn-info" >Рассчитать график</button>
+        <button th:value="${request.getId()}" class="edit btn btn-info" >Изменить</button>
+        <button th:value="${request.getId()}" class="remover btn btn-dark">Удалить</button>
+    </p>
+
+    <p class="text-center" id="empty-bd-par"
+       th:hidden="${requests == null || requests.size() > 0} ? 'hidden'">Заявок не найдено!</p>
+    <br/>
+</body>
+</html>
