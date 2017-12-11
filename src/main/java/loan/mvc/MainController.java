@@ -1,11 +1,10 @@
 package loan.mvc;
 
 import loan.Utils;
+import loan.model.MonthSchedule;
 import loan.model.PayInfo;
 import loan.model.Request;
-import loan.model.MonthSchedule;
 import loan.service.RequestService;
-import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +21,11 @@ import java.util.List;
 @SessionAttributes({"request"})
 public class MainController {
 
-    private final RequestService service;
+    private final RequestService requestService;
 
     @Autowired
     public MainController(RequestService service) {
-        this.service = service;
+        this.requestService = service;
     }
 
     @RequestMapping("/")
@@ -41,7 +40,7 @@ public class MainController {
 
     @RequestMapping("/requests")
     public String listRequests(Model model) {
-        model.addAttribute("requests", service.listRequests());
+        model.addAttribute("requests", requestService.listRequests());
         return "request-listing";
     }
 
@@ -55,7 +54,7 @@ public class MainController {
     public String createRequest(@ModelAttribute("request") Request request) {
 
         request.setMonthlyCharge(Utils.calcMonthlyCharge(request));
-        service.createRequest(request);
+        requestService.createRequest(request);
         return "success";
     }
 
@@ -63,7 +62,7 @@ public class MainController {
     public String updateRequest(@ModelAttribute("request") Request request) {
 
         request.setMonthlyCharge(Utils.calcMonthlyCharge(request));
-        service.updateRequest(request);
+        requestService.updateRequest(request);
         return "success";
     }
 
@@ -71,14 +70,14 @@ public class MainController {
     public String getRequestInfo(@PathVariable("id") int id,
                                  Model model) {
 
-        model.addAttribute(service.getRequest(id));
+        model.addAttribute(requestService.getRequest(id));
         return "input-edition";
     }
 
     @RequestMapping(value = "/requests/{id}", method = RequestMethod.DELETE)
     public String deleteRequest(@PathVariable("id") int id) {
 
-        service.removeRequest(id);
+        requestService.removeRequest(id);
         return "request-listing";
     }
 
@@ -86,7 +85,7 @@ public class MainController {
     public String schedulePayment(@PathVariable("id") int id,
                                   Model model) {
 
-        Request request = service.getRequest(id);
+        Request request = requestService.getRequest(id);
         BigDecimal monthlyCharge = Utils.calcMonthlyCharge(request);
         List<MonthSchedule> schedule = Utils.calcSchedule(request.getDuration(), request.getSum(), monthlyCharge);
         PayInfo info = Utils.calcInfo(schedule, request.getSum(), request.getDuration());
