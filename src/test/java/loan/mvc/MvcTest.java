@@ -33,11 +33,21 @@ public class MvcTest {
         mvc.perform(post("/")
                 .accept(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
+
+
+        mvc.perform(get("/")
+                .accept(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void testSuccess() throws Exception {
         mvc.perform(get("/success")
+                .accept(MediaType.TEXT_PLAIN))
+                .andExpect(status().isOk());
+
+
+        mvc.perform(post("/success")
                 .accept(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk());
     }
