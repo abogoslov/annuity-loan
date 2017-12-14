@@ -21,6 +21,9 @@ $(function () {
         validateInput(isSumCorrect, isDurationCorrect);
     });
 
+    $('#sum').trigger('keyup');
+    $('#duration').trigger('keyup');
+
     function validateInput(isSumCorrect, isDurationCorrect) {
 
         if (isSumCorrect && isDurationCorrect) {
