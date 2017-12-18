@@ -1,10 +1,11 @@
 # annuity-loan
 
-_Web-app calculating payments for annuity loan scheme_
-
-**CRUD**with requests to loan<br>
+_Web-app calculating payments for annuity loan scheme_<br/>
 <br/>
-#P.S.
+**CRUD** with requests to loan<br>
+<br/><br/>
+**P.S.**<br/>
+<br/>
 Spring Boot (MVC + Data + Test, Thymeleaf)<br/>
 JavaScript, JQuery<br/>
 Bootstrap<br/>
