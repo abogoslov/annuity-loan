@@ -3,9 +3,9 @@
 _Web-app calculating payments for annuity loan scheme_<br/>
 <br/>
 **CRUD** with requests to loan<br>
-<br/><br/>
-**P.S.**<br/>
 <br/>
+<br/>
+**P.S.**<br/>
 Spring Boot (MVC + Data + Test, Thymeleaf)<br/>
 JavaScript, JQuery<br/>
 Bootstrap<br/>

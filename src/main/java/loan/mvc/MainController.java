@@ -1,8 +1,10 @@
 package loan.mvc;
 
+import loan.model.Client;
 import loan.model.MonthSchedule;
 import loan.model.PayInfo;
 import loan.model.Request;
+import loan.service.ClientService;
 import loan.service.RequestService;
 import loan.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,13 @@ import java.util.List;
 public class MainController {
 
     private final RequestService requestService;
+    private final ClientService clientService;
     private final Utils utils;
 
     @Autowired
-    public MainController(RequestService service, Utils utils) {
+    public MainController(RequestService service, ClientService clientService, Utils utils) {
         this.requestService = service;
+        this.clientService = clientService;
         this.utils = utils;
     }
 
@@ -49,20 +53,28 @@ public class MainController {
     @RequestMapping("/create")
     public String showCreatePage(Model model) {
         model.addAttribute("request", new Request());
+        model.addAttribute("client", new Client());
         return "input-edition";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String createRequest(@ModelAttribute("request") Request request) {
-
         request.setMonthlyCharge(utils.calcMonthlyCharge(request));
+
+        Client client = request.getClient();
+        Client clientFromDb = clientService.findClient(client);
+        if (clientFromDb == null) {
+            clientService.createClient(client);
+        } else {
+            request.setClient(clientFromDb);
+        }
+
         requestService.createRequest(request);
         return "success";
     }
 
     @RequestMapping(value = "/save", method = RequestMethod.PUT)
     public String updateRequest(@ModelAttribute("request") Request request) {
-
         request.setMonthlyCharge(utils.calcMonthlyCharge(request));
         requestService.updateRequest(request);
         return "success";
@@ -72,13 +84,12 @@ public class MainController {
     public String getRequestInfo(@PathVariable("id") int id,
                                  Model model) {
 
-        model.addAttribute(requestService.getRequest(id));
+        model.addAttribute("request", requestService.getRequest(id));
         return "input-edition";
     }
 
     @RequestMapping(value = "/requests/{id}", method = RequestMethod.DELETE)
     public String deleteRequest(@PathVariable("id") int id) {
-
         requestService.removeRequest(id);
         return "request-listing";
     }
@@ -92,11 +103,11 @@ public class MainController {
         List<MonthSchedule> schedule = utils.calcSchedule(request.getDuration(), request.getSum(), monthlyCharge);
         PayInfo info = utils.calcInfo(schedule, request.getSum(), request.getDuration());
 
-
         model.addAttribute("date", request.getDate().toLocalDate());
         model.addAttribute("info", info);
         model.addAttribute("schedule", schedule);
         model.addAttribute("charge", monthlyCharge);
+        model.addAttribute("client", request.getClient());
         return "payment-schedule";
     }
 }

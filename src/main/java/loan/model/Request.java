@@ -29,6 +29,10 @@ public class Request {
     @Column(name = "monthly_charge")
     private BigDecimal monthlyCharge;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    private Client client;
+
     public Integer getId() {
         return id;
     }
@@ -69,8 +73,17 @@ public class Request {
         this.monthlyCharge = monthlyCharge;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     @Override
     public String toString() {
-        return "ID: " + id + "; Сумма: " + sum + " руб.; Дата заявки: " + date + "; На срок " + duration + "мес.";
+        return "ID: " + id + "; Сумма: " + sum + " руб.; Дата заявки: " + date + "; На срок " + duration + "мес.\n(" +
+                client.toString() + ")";
     }
 }

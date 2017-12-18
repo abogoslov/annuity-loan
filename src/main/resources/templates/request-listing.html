@@ -41,12 +41,15 @@
 
     <!--/*@thymesVar id="requests" type="java.util.List"*/-->
     <!--/*@thymesVar id="request" type="loan.model.Request"*/-->
-    <p th:each="request : ${requests}" th:id="'par' + ${request.getId()}" class="request-par text-center m-1">
+    <div th:each="request : ${requests}" th:id="'par' + ${request.getId()}" class="request-par text-center m-1 row">
         <span th:text="${request}"></span>
-        <button th:value="${request.getId()}" class="schedule btn btn-info" >Рассчитать график</button>
-        <button th:value="${request.getId()}" class="edit btn btn-info" >Изменить</button>
-        <button th:value="${request.getId()}" class="remover btn btn-dark">Удалить</button>
-    </p>
+
+        <div class="col text-right">
+            <button th:value="${request.getId()}" class="schedule btn btn-info" >Рассчитать график</button>
+            <button th:value="${request.getId()}" class="edit btn btn-info" >Изменить</button>
+            <button th:value="${request.getId()}" class="remover btn btn-dark">Удалить</button>
+        </div>
+    </div>
 
     <p class="text-center" id="empty-bd-par"
        th:hidden="${requests == null || requests.size() > 0} ? 'hidden'">Заявок не найдено!</p>

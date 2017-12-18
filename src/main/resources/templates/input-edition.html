@@ -40,35 +40,65 @@
     </nav>
 
     <!--/*@thymesVar id="request" type="loan.model.Request"*/-->
-    <form th:action="@{/save}" th:method="${request.getId() != null} ? 'PUT' : 'POST'" th:object="${request}"
-          th:id="${request.getId() == null} ? 'post'">
-        <div class="col-sm-6 form-group">
-            <label>ID</label>
-            <input th:value="${request.getId() != null} ? ${request.getId()}" th:field="*{id}" type="text"
-                   title="ID заявки" disabled="disabled" id="id" class="form-control"/>
+    <form th:action="@{/save}" th:method="${request.getId() != null} ? 'PUT' : 'POST'"
+          th:id="${request.getId() == null} ? 'post'" th:object="${request}">
+        <div class="row">
+            <div class="col-sm-4 m-2">
+                <div class="form-group">
+                    <label>Фамилия клиента</label>
+                    <input th:value="${request.getId() != null} ? ${request.getClient().getSurname()}"
+                           th:disabled="${request.getId() != null} ? 'disabled'" th:field="*{client.surname}"
+                           type="text" required="required" placeholder="Фамилия" id="surname" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Имя клиента</label>
+                    <input th:value="${request.getId() != null} ? ${request.getClient().getFirstName()}"
+                           th:disabled="${request.getId() != null} ? 'disabled'" th:field="*{client.firstName}"
+                           type="text" required="required" placeholder="Имя" id="name" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Номер ДУЛ клиента</label>
+                    <input th:value="${request.getId() != null} ? ${request.getClient().getDocId()}"
+                           th:disabled="${request.getId() != null} ? 'disabled'" th:field="*{client.docId}"
+                           type="text" title="Паспорт: Паспорт РФ \ Загран. паспорт \ Дип. паспорт" required="required"
+                           placeholder="Паспорт \ Военный билет" id="doc_id" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="col-sm-4 m-2">
+                <div class="form-group">
+                    <label>ID</label>
+                    <input th:value="${request.getId() != null} ? ${request.getId()}"
+                           type="text" title="ID заявки" disabled="disabled" id="id" class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Сумма</label>
+                    <input th:value="${request.getId() != null} ? ${request.getSum()}" th:field="*{sum}"
+                           type="text" title="Введите сумму в руб." required="required" placeholder="Руб." id="sum"
+                           class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Дата утверждения</label>
+                    <input th:value="${request.getId() != null} ? ${request.getDate()}" th:field="*{date}"
+                           th:min="${request.getId() == null} ? ''"
+                           type="date" class="form-control" title="Дата заема" required="required" id="date"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Длительность</label>
+                    <input th:value="${request.getId() != null} ? ${request.getDuration()}" th:field="*{duration}"
+                           type="text" class="form-control" title="Не менее полугода" required="required"
+                           placeholder="В месяцах" id="duration"/>
+                </div>
+            </div>
         </div>
 
-        <div class="col-sm-6 form-group">
-            <label>Сумма</label>
-            <input th:value="${request.getId() != null} ? ${request.getSum()}" th:field="*{sum}" type="text"
-                   title="Введите сумму в руб." required="required" placeholder="Руб." id="sum" class="form-control"/>
-        </div>
-
-        <div class="col-sm-6 form-group">
-            <label>Дата утверждения</label>
-            <input th:value="${request.getId() != null} ? ${request.getDate()}" th:field="*{date}"
-                   th:min="${request.getId() == null} ? ''" type="date" class="form-control"
-                   title="Дата заема" required="required" id="date"/>
-        </div>
-
-        <div class="col-sm-6 form-group">
-            <label>Длительность</label>
-            <input th:value="${request.getId() != null} ? ${request.getDuration()}" th:field="*{duration}" type="text"
-                   title="Не менее полугода" required="required" placeholder="В месяцах" id="duration"/>
-        </div>
-
-        <button id="submit" type="submit" th:text="${request.getId() != null} ? 'Изменить' : 'Создать'"
-                disabled="disabled" class="ml-3 btn btn-dark"></button>
+        <button th:text="${request.getId() != null} ? 'Изменить' : 'Создать'"
+                disabled="disabled" class="ml-3 btn btn-dark" id="submit" type="submit"></button>
     </form>
 </body>
 </html>
