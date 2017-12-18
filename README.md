@@ -2,10 +2,10 @@
 
 _Web-app calculating payments for annuity loan scheme_
 
-**CRUD**-operations with requests to loan<br>
+**CRUD**with requests to loan<br>
 <br/>
-**Bootstrap**-interface<br/>
-<br/>
-Spring Boot (MVC + Data; Thymeleaf)<br/>
-<br/>
-Simple unit-tests
+#P.S.
+Spring Boot (MVC + Data + Test, Thymeleaf)<br/>
+JavaScript, JQuery<br/>
+Bootstrap<br/>
+JUnit, Mockito<br/>

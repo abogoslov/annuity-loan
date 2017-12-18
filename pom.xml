@@ -76,17 +76,6 @@
             <artifactId>google-collections</artifactId>
             <version>1.0-rc2</version>
         </dependency>
-
-        <!-- JSP -->
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
