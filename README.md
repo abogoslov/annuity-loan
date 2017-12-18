@@ -1,6 +1,6 @@
 # annuity-loan
 
-##Web-app calculating payments for annuity loan scheme
+_Web-app calculating payments for annuity loan scheme_
 
 **CRUD**-operations with requests to loan<br>
 <br/>
