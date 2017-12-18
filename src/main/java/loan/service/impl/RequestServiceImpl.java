@@ -1,8 +1,9 @@
-package loan.service;
+package loan.service.impl;
 
 import com.google.common.collect.Lists;
 import loan.db.RequestRepository;
 import loan.model.Request;
+import loan.service.RequestService;
 import loan.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

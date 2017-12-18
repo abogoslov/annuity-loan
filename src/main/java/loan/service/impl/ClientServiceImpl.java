@@ -1,7 +1,8 @@
-package loan.service;
+package loan.service.impl;
 
 import loan.db.ClientRepository;
 import loan.model.Client;
+import loan.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
