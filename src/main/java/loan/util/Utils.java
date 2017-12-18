@@ -1,8 +1,9 @@
-package loan;
+package loan.util;
 
 import loan.model.MonthSchedule;
 import loan.model.PayInfo;
 import loan.model.Request;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,12 +14,14 @@ import static java.math.BigDecimal.ROUND_HALF_UP;
 /**
  * @author A.Bogoslov
  */
+
+@Component
 public class Utils {
 
     // % / 12
     private static final double INTEREST_RATE_RATIO = 0.11 / 12.0;
 
-    public static BigDecimal calcMonthlyCharge(Request request) {
+    public BigDecimal calcMonthlyCharge(Request request) {
 
         return request.getSum().multiply(
                     BigDecimal.valueOf(INTEREST_RATE_RATIO + INTEREST_RATE_RATIO /
@@ -26,7 +29,7 @@ public class Utils {
                     .setScale(2, ROUND_HALF_UP);
     }
 
-    public static List<MonthSchedule> calcSchedule(int duration, BigDecimal sum, BigDecimal monthlyCharge) {
+    public List<MonthSchedule> calcSchedule(int duration, BigDecimal sum, BigDecimal monthlyCharge) {
 
         List<MonthSchedule> scheduleList = new ArrayList<>(duration);
         MonthSchedule schedule;
@@ -61,7 +64,7 @@ public class Utils {
         return scheduleList;
     }
 
-    public static PayInfo calcInfo(List<MonthSchedule> schedule, BigDecimal sum, int duration) {
+    public PayInfo calcInfo(List<MonthSchedule> schedule, BigDecimal sum, int duration) {
         PayInfo info = new PayInfo();
         schedule.forEach(s -> info.calcInfo(s, duration));
         info.setAmount(info.getPercents().add(sum));

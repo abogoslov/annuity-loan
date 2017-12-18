@@ -1,10 +1,10 @@
 package loan.mvc;
 
-import loan.Utils;
 import loan.model.MonthSchedule;
 import loan.model.PayInfo;
 import loan.model.Request;
 import loan.service.RequestService;
+import loan.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +22,12 @@ import java.util.List;
 public class MainController {
 
     private final RequestService requestService;
+    private final Utils utils;
 
     @Autowired
-    public MainController(RequestService service) {
+    public MainController(RequestService service, Utils utils) {
         this.requestService = service;
+        this.utils = utils;
     }
 
     @RequestMapping("/")
@@ -53,7 +55,7 @@ public class MainController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String createRequest(@ModelAttribute("request") Request request) {
 
-        request.setMonthlyCharge(Utils.calcMonthlyCharge(request));
+        request.setMonthlyCharge(utils.calcMonthlyCharge(request));
         requestService.createRequest(request);
         return "success";
     }
@@ -61,7 +63,7 @@ public class MainController {
     @RequestMapping(value = "/save", method = RequestMethod.PUT)
     public String updateRequest(@ModelAttribute("request") Request request) {
 
-        request.setMonthlyCharge(Utils.calcMonthlyCharge(request));
+        request.setMonthlyCharge(utils.calcMonthlyCharge(request));
         requestService.updateRequest(request);
         return "success";
     }
@@ -86,9 +88,9 @@ public class MainController {
                                   Model model) {
 
         Request request = requestService.getRequest(id);
-        BigDecimal monthlyCharge = Utils.calcMonthlyCharge(request);
-        List<MonthSchedule> schedule = Utils.calcSchedule(request.getDuration(), request.getSum(), monthlyCharge);
-        PayInfo info = Utils.calcInfo(schedule, request.getSum(), request.getDuration());
+        BigDecimal monthlyCharge = utils.calcMonthlyCharge(request);
+        List<MonthSchedule> schedule = utils.calcSchedule(request.getDuration(), request.getSum(), monthlyCharge);
+        PayInfo info = utils.calcInfo(schedule, request.getSum(), request.getDuration());
 
 
         model.addAttribute("date", request.getDate().toLocalDate());

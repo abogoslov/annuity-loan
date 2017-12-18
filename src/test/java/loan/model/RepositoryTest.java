@@ -1,7 +1,7 @@
 package loan.model;
 
-import loan.Utils;
 import loan.db.RequestRepository;
+import loan.util.Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,9 @@ public class RepositoryTest {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private Utils utils;
+
     private Request request;
 
     @Test
@@ -48,7 +51,7 @@ public class RepositoryTest {
         request.setDate(date);
         request.setSum(BigDecimal.valueOf(1200000));
         request.setDuration(12);
-        BigDecimal charge = Utils.calcMonthlyCharge(request);
+        BigDecimal charge = utils.calcMonthlyCharge(request);
         request.setMonthlyCharge(charge);
 
         entityManager.persist(request);
