@@ -48,14 +48,16 @@
                     <label>Фамилия клиента</label>
                     <input th:value="${request.getId() != null} ? ${request.getClient().getSurname()}"
                            th:disabled="${request.getId() != null} ? 'disabled'" th:field="*{client.surname}"
-                           type="text" required="required" placeholder="Фамилия" id="surname" class="form-control"/>
+                           type="text" required="required" placeholder="Фамилия" id="surname" class="form-control"
+                           pattern="^[а-яА-Яa-zA-Z-]+$"/>
                 </div>
 
                 <div class="form-group">
                     <label>Имя клиента</label>
                     <input th:value="${request.getId() != null} ? ${request.getClient().getFirstName()}"
                            th:disabled="${request.getId() != null} ? 'disabled'" th:field="*{client.firstName}"
-                           type="text" required="required" placeholder="Имя" id="name" class="form-control"/>
+                           type="text" required="required" placeholder="Имя" id="name" class="form-control"
+                           pattern="^[а-яА-Яa-zA-Z-]+$"/>
                 </div>
 
                 <div class="form-group">
@@ -63,7 +65,7 @@
                     <input th:value="${request.getId() != null} ? ${request.getClient().getDocId()}"
                            th:disabled="${request.getId() != null} ? 'disabled'" th:field="*{client.docId}"
                            type="text" title="Паспорт: Паспорт РФ \ Загран. паспорт \ Дип. паспорт" required="required"
-                           placeholder="Паспорт \ Военный билет" id="doc_id" class="form-control"/>
+                           placeholder="Паспорт \ Военный билет" id="doc_id" class="form-control" pattern="[А-Я0-9]{9,}"/>
                 </div>
             </div>
 
@@ -78,7 +80,7 @@
                     <label>Сумма</label>
                     <input th:value="${request.getId() != null} ? ${request.getSum()}" th:field="*{sum}"
                            type="text" title="Введите сумму в руб." required="required" placeholder="Руб." id="sum"
-                           class="form-control"/>
+                           class="form-control" pattern="\d+(,\d{2})?"/>
                 </div>
 
                 <div class="form-group">
@@ -91,7 +93,7 @@
                 <div class="form-group">
                     <label>Длительность</label>
                     <input th:value="${request.getId() != null} ? ${request.getDuration()}" th:field="*{duration}"
-                           type="text" class="form-control" title="Не менее полугода" required="required"
+                           type="number" class="form-control" title="Не менее полугода" required="required"
                            placeholder="В месяцах" id="duration"/>
                 </div>
             </div>

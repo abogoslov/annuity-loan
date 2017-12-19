@@ -17,7 +17,7 @@ $(function () {
 
         const duration = $('#duration').val();
 
-        isDurationCorrect = duration > 5 && duration <= 900 && !duration.includes('.');
+        isDurationCorrect = duration > 5 && duration <= 900;
         validateInput(isSumCorrect, isDurationCorrect);
     });
 
