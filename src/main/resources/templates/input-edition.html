@@ -65,7 +65,8 @@
                     <input th:value="${request.getId() != null} ? ${request.getClient().getDocId()}"
                            th:disabled="${request.getId() != null} ? 'disabled'" th:field="*{client.docId}"
                            type="text" title="Паспорт: Паспорт РФ \ Загран. паспорт \ Дип. паспорт" required="required"
-                           placeholder="Паспорт \ Военный билет" id="doc_id" class="form-control" pattern="[А-Я0-9]{9,}"/>
+                           placeholder="Паспорт \ Военный билет" id="doc_id" class="form-control"
+                           pattern="[А-Я0-9]{9,}"/>
                 </div>
             </div>
 

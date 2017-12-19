@@ -7,6 +7,6 @@ _Web-app calculating payments for annuity loan scheme_<br/>
 <br/>
 **P.S.**<br/>
 Spring Boot (MVC + Data + Test, Thymeleaf)<br/>
-JavaScript, JQuery<br/>
+JQuery<br/>
 Bootstrap<br/>
 JUnit, Mockito<br/>

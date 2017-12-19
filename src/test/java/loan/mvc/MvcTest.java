@@ -1,6 +1,8 @@
 package loan.mvc;
 
+import loan.service.ClientService;
 import loan.service.RequestService;
+import loan.util.Utils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,12 @@ public class MvcTest {
 
     @MockBean
     private RequestService requestService;
+
+    @MockBean
+    private ClientService clientService;
+
+    @MockBean
+    private Utils utils;
 
     @Test
     public void testIndex() throws Exception {
