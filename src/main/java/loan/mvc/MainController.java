@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * @author A.Bogoslov
@@ -27,11 +28,14 @@ public class MainController {
     private final ClientService clientService;
     private final Utils utils;
 
+    private static Logger logger = Logger.getLogger(MainController.class.getName());
+
     @Autowired
     public MainController(RequestService service, ClientService clientService, Utils utils) {
         this.requestService = service;
         this.clientService = clientService;
         this.utils = utils;
+        logger.info("Autowiring successfully");
     }
 
     @RequestMapping("/")
@@ -47,13 +51,18 @@ public class MainController {
     @RequestMapping("/requests")
     public String listRequests(Model model) {
         model.addAttribute("requests", requestService.listRequests());
+        logger.info("Put List<Request> attribute to model");
         return "request-listing";
     }
 
     @RequestMapping("/create")
     public String showCreatePage(Model model) {
         model.addAttribute("request", new Request());
+        logger.info("Put Request attribute to model");
+
         model.addAttribute("client", new Client());
+        logger.info("Put Client attribute to model");
+
         return "input-edition";
     }
 
@@ -61,15 +70,18 @@ public class MainController {
     public String createRequest(@ModelAttribute("request") Request request) {
         request.setMonthlyCharge(utils.calcMonthlyCharge(request));
 
-        Client client = request.getClient();
-        Client clientFromDb = clientService.findClient(client);
-        if (clientFromDb == null) {
-            clientService.createClient(client);
+        Client formClient = request.getClient();
+        Client dbClient = clientService.findClient(formClient);
+        if (dbClient == null) {
+            clientService.createClient(formClient);
+            logger.info("Client inserted to db");
         } else {
-            request.setClient(clientFromDb);
+            request.setClient(dbClient);
+            logger.info("Existing Client selected from db");
         }
 
         requestService.createRequest(request);
+        logger.info("Request inserted to db");
         return "success";
     }
 
@@ -77,6 +89,7 @@ public class MainController {
     public String updateRequest(@ModelAttribute("request") Request request) {
         request.setMonthlyCharge(utils.calcMonthlyCharge(request));
         requestService.updateRequest(request);
+        logger.info("Request updated in db");
         return "success";
     }
 
@@ -104,10 +117,19 @@ public class MainController {
         PayInfo info = utils.calcInfo(schedule, request.getSum(), request.getDuration());
 
         model.addAttribute("date", request.getDate().toLocalDate());
+        logger.info("Put Date attribute to model");
+
         model.addAttribute("info", info);
+        logger.info("Put PayInfo attribute to model");
+
         model.addAttribute("schedule", schedule);
+        logger.info("Put List<MonthSchedule> attribute to model");
+
         model.addAttribute("charge", monthlyCharge);
+        logger.info("Put BigDecimal attribute to model");
+
         model.addAttribute("client", request.getClient());
+        logger.info("Put Client attribute to model");
         return "payment-schedule";
     }
 }
