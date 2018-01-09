@@ -23,12 +23,11 @@ import java.util.logging.Logger;
 @Controller
 @SessionAttributes({"request"})
 public class MainController {
+    private static Logger logger = Logger.getLogger(MainController.class.getName());
 
     private final RequestService requestService;
     private final ClientService clientService;
     private final Utils utils;
-
-    private static Logger logger = Logger.getLogger(MainController.class.getName());
 
     @Autowired
     public MainController(RequestService service, ClientService clientService, Utils utils) {
@@ -51,18 +50,16 @@ public class MainController {
     @RequestMapping("/requests")
     public String listRequests(Model model) {
         model.addAttribute("requests", requestService.listRequests());
-        logger.info("Put List<Request> attribute to model");
+        logger.info("Model for /requests assembled");
         return "request-listing";
     }
 
     @RequestMapping("/create")
     public String showCreatePage(Model model) {
         model.addAttribute("request", new Request());
-        logger.info("Put Request attribute to model");
-
         model.addAttribute("client", new Client());
-        logger.info("Put Client attribute to model");
 
+        logger.info("Model for /create assembled");
         return "input-edition";
     }
 
@@ -94,9 +91,7 @@ public class MainController {
     }
 
     @RequestMapping(value = "/requests/{id}", method = RequestMethod.GET)
-    public String getRequestInfo(@PathVariable("id") int id,
-                                 Model model) {
-
+    public String getRequestInfo(@PathVariable("id") int id, Model model) {
         model.addAttribute("request", requestService.getRequest(id));
         return "input-edition";
     }
@@ -108,28 +103,18 @@ public class MainController {
     }
 
     @RequestMapping("/schedule/{id}")
-    public String schedulePayment(@PathVariable("id") int id,
-                                  Model model) {
-
+    public String schedulePayment(@PathVariable("id") int id, Model model) {
         Request request = requestService.getRequest(id);
         BigDecimal monthlyCharge = utils.calcMonthlyCharge(request);
         List<MonthSchedule> schedule = utils.calcSchedule(request.getDuration(), request.getSum(), monthlyCharge);
         PayInfo info = utils.calcInfo(schedule, request.getSum(), request.getDuration());
 
         model.addAttribute("date", request.getDate().toLocalDate());
-        logger.info("Put Date attribute to model");
-
         model.addAttribute("info", info);
-        logger.info("Put PayInfo attribute to model");
-
         model.addAttribute("schedule", schedule);
-        logger.info("Put List<MonthSchedule> attribute to model");
-
         model.addAttribute("charge", monthlyCharge);
-        logger.info("Put BigDecimal attribute to model");
-
         model.addAttribute("client", request.getClient());
-        logger.info("Put Client attribute to model");
+        logger.info("Model for /schedule/{id} assembled");
         return "payment-schedule";
     }
 }
